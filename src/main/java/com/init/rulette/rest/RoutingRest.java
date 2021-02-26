@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.init.rulette.entitys.rulette;
+//import com.init.rulette.entitys.rulette;
 
 @RestController
 //@RequestMapping("/")
@@ -21,6 +21,7 @@ public class RoutingRest {
 		return "Hellow Word";
 	}
 	
+	/*
 	@GetMapping
 	public ResponseEntity<rulette> getRulette(){
 		rulette r = new rulette();
@@ -28,6 +29,12 @@ public class RoutingRest {
 		r.setStatus("Abierto");
 		
 		return ResponseEntity.ok(r);		
+	}
+	*/
+	
+	@RequestMapping(value="getRulette", method = RequestMethod.GET)
+	public ResponseEntity<List<com.init.rulette.entitysJPA.rulette>> getsRulette(){
+		return null;
 	}
 	
 	//public ResponseEntity<List<rulette>> getRulettes(){

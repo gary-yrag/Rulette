@@ -3,19 +3,17 @@ package com.init.rulette.entitysJPA;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Id;
 
 @Entity
 @Table(name="RULETTE")
 public class rulette {
-	
+	@Id
 	@Column(name="ID", nullable=false, length=3)
 	private Long id;
 	@Column(name="STATUS",nullable = false, length = 20)
 	private String status;
-	
-	public rulette() {		
-	}
-	
+		
 	public rulette(Long id, String status) {		
 		this.id = id;
 		this.status = status;
