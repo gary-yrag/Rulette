@@ -13,7 +13,10 @@ public class rulette {
 	private Long id;
 	@Column(name="STATUS",nullable = false, length = 20)
 	private String status;
+	
+	public rulette() {
 		
+	}
 	public rulette(Long id, String status) {		
 		this.id = id;
 		this.status = status;
