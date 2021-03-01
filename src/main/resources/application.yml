@@ -1,7 +1,5 @@
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: create-drop    database-platform: org.hibernate.dialect.Oracle10gDialect
+  jpa:        database-platform: org.hibernate.dialect.Oracle10gDialect
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
     url: jdbc:oracle:thin:@//localhost:1521/ORCL
