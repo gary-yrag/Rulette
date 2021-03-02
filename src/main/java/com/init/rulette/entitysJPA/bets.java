@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class bets {
 	@Id
 	@Column(name="ID", nullable=false,length=3)
-	private long id;
+	private Long id;
 	@Column(name="RULETTE_ID", nullable=false, length = 3)
 	private Long rulette_id;
 	@Column(name="USER_ID",nullable=false,length=3)
@@ -20,10 +20,14 @@ public class bets {
 	@Column(name="BETTING_CRITERION",nullable=false,length=10)
 	private String betting_criterion;
 	
-	public long getId() {
+	public bets() {
+		
+	}
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Long getRulette_id() {

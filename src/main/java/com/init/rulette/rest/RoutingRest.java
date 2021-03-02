@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,16 +46,31 @@ public class RoutingRest {
 		}
 	}
 	
-	@PostMapping
+	@PostMapping //(POST)
 	public ResponseEntity <rulette>CreateRulette(@RequestBody rulette Rulette){
 		rulette newRulette = ruletteDao.save(Rulette);
 		return ResponseEntity.ok(newRulette);
 	}
 	
-	@DeleteMapping(value="{productId}")
-	public ResponseEntity <Void> deleteRulette(@PathVariable("productId")Long produdctId){
-		ruletteDao.deleteById(produdctId);
+	@DeleteMapping(value="{ruletteId}")
+	public ResponseEntity <Void> deleteRulette(@PathVariable("ruletteId")Long ruletteId){
+		ruletteDao.deleteById(ruletteId);
 		return ResponseEntity.ok(null);
+	}
+	
+	@PutMapping
+	public ResponseEntity<rulette> updateRulette(@RequestBody rulette Rulette){
+		Optional<rulette> optionalRulette = ruletteDao.findById(Rulette.getId());
+		
+		if(optionalRulette.isPresent()) {
+			rulette updateRulette = optionalRulette.get();
+			updateRulette.setStatus(Rulette.getStatus());
+			ruletteDao.save(updateRulette);
+			
+			return ResponseEntity.ok(updateRulette);
+		}else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 	
 	//@GetMapping //Disponble Mediante metodo get //no define una Url (Toma como url la base /) localhost:8080
