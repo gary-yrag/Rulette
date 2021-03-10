@@ -73,6 +73,96 @@ public class RoutingRest {
 		}
 	}
 	
+	@RequestMapping(value="RCreateRulette", method = RequestMethod.GET)
+	public String RcreateRulette() {
+		rulette CreateRulette = new rulette();
+		Long rId = ruletteDao.count();
+		rId = rId+1;
+		CreateRulette.setId(rId);
+		CreateRulette.setStatus("DISABLED");
+		
+		rulette CreatedResult = ruletteDao.save(CreateRulette);
+		
+		if(CreatedResult!=null) {
+			return ""+CreatedResult.getId();
+		}
+		return "";
+	}
+	
+	@RequestMapping(value="ROpenRulette/{RuletteId}", method=RequestMethod.GET)
+	public String ROpenRulette(@PathVariable("RuletteId") Long ruletteId) {
+		Optional<rulette> OptionalRulette = ruletteDao.findById(ruletteId);
+		
+		if(OptionalRulette.isPresent()) {
+			rulette rUpdate = OptionalRulette.get();
+			rUpdate.setStatus("ACTIVE");
+			
+			rulette rResult = ruletteDao.save(rUpdate);
+			return "Ruleta Numero: " + rResult.getId() + ", Activada"; 
+		}else {
+			return "No existe la ruleta buscada";
+		}
+	}
+	
+	class CloseRulette{
+		private Long BetsId;
+		private Long UserId;
+		private String Criterion;
+		private double BetsValue;
+		private double ValueWins;
+		private String statusClose;
+		
+		CloseRulette(){
+			
+		}
+		
+		public Long getBetsId() {
+			return BetsId;
+		}
+		public void setBetsId(Long betsId) {
+			BetsId = betsId;
+		}
+		public Long getUserId() {
+			return UserId;
+		}
+		public void setUserId(Long userId) {
+			UserId = userId;
+		}
+		public String getCriterion() {
+			return Criterion;
+		}
+		public void setCriterion(String criterion) {
+			Criterion = criterion;
+		}
+		public double getBetsValue() {
+			return BetsValue;
+		}
+		public void setBetsValue(double betsValue) {
+			BetsValue = betsValue;
+		}
+		public double getValueWins() {
+			return ValueWins;
+		}
+		public void setValueWins(double valueWins) {
+			ValueWins = valueWins;
+		}
+		public String getStatusClose() {
+			return statusClose;
+		}
+		public void setStatusClose(String statusClose) {
+			this.statusClose = statusClose;
+		}
+	}
+	
+	@RequestMapping(value="RCloseRulette/{RuletteId}", method=RequestMethod.GET)
+	public ResponseEntity<CloseRulette> RCloseRulette(@PathVariable("RuletteId") Long RuletteId) {
+		CloseRulette cr = new CloseRulette();
+		
+		return ResponseEntity.ok(cr);
+	}
+	
+	
+	
 	//@GetMapping //Disponble Mediante metodo get //no define una Url (Toma como url la base /) localhost:8080
 	/*@RequestMapping(value="hello", method = RequestMethod.GET)
 	public String hello() {
