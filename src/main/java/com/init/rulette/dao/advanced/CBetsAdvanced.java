@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.init.rulette.dao.BetsDao;
+import com.init.rulette.dao.BetsDaoAdvanced;
 import com.init.rulette.entitysJPA.bets;
 
 /**
@@ -17,7 +17,7 @@ import com.init.rulette.entitysJPA.bets;
 public class CBetsAdvanced implements IBetsAdvanced {
 
 	@Autowired
-	private BetsDao betsdaoRepository;
+	private BetsDaoAdvanced betsdaoRepository;
 	
 	@Override
 	public List<bets> findByRuletteId(Long RuletteId) {

@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.init.rulette.dao.RuletteDao;
-import com.init.rulette.dao.BetsDao;
 import com.init.rulette.entitysJPA.bets;
 import com.init.rulette.entitysJPA.rulette;
 
@@ -28,12 +28,13 @@ import com.init.rulette.dao.advanced.IBetsAdvanced;
 
 @RestController
 //@RequestMapping("/")
+@CrossOrigin(origins = "*")
 @RequestMapping("/rulette")
 public class RoutingRest {
 	
 	@Autowired
-	private RuletteDao ruletteDao; 
-	private BetsDao betsDao;
+	private RuletteDao ruletteDao;
+	@Autowired
 	private IBetsAdvanced ibetsdaoAdvanced;
 		
 	//@RequestMapping(value="getRulettes", method= RequestMethod.GET)
@@ -184,7 +185,7 @@ public class RoutingRest {
 				closeRul.BetsId = row.getId();
 				closeRul.BetsValue = row.getBet_value();
 				closeRul.Criterion = row.getBetting_criterion();
-				closeRul.statusClose = (WinnerCriterion(row.getBetting_criterion(),numR) == true?"Gana":"Pierde");
+				closeRul.statusClose = (WinnerCriterion(row.getBetting_criterion(),numR) == true?"Gana":"Pierde: [ganador:"+numR+"]");
 				closeRul.ValueWins = WinnerMoney(row.getBetting_criterion(),numR,row.getBet_value());
 				closeRulettes.add(closeRul);				
 								

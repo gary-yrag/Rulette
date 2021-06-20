@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,10 +23,12 @@ import com.init.rulette.entitysJPA.bets;
 import com.init.rulette.entitysJPA.rulette;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/bets")
 public class BetsRoutingRest {		
 	@Autowired
 	private BetsDao betsDao;
+	@Autowired
 	private RuletteDao ruletteDao;
 	
 	@GetMapping		
@@ -71,7 +74,7 @@ public class BetsRoutingRest {
 		return ResponseEntity.ok(newBets);
 	}*/
 	//@RequestMapping(value="/CreateBets",headers= {}, method=RequestMethod.POST)
-	@PostMapping
+	@PostMapping(value="CreateBets")
 	public ResponseEntity <Message>CreateBets(@RequestHeader("idCliente") Long idCliente, @RequestBody bets Bets){
 		Message msg = new Message();
 		if(!this.validIsActiveRulette(Bets.getRulette_id())) {
@@ -83,11 +86,11 @@ public class BetsRoutingRest {
 		
 		//System.out.println("idCliente: "+idCliente);
 		boolean valid = false;
-		if(Bets.getBetting_criterion()== "black" || Bets.getBetting_criterion()=="red") {
+		if(Bets.getBetting_criterion().indexOf("black")!=-1 || Bets.getBetting_criterion().indexOf("red")!=-1) {
 			valid = true;
 		}else {
 			Ivalidations Iv = validationsNumber::new;
-			validationsNumber vfn = Iv.v("");
+			validationsNumber vfn = Iv.v(Bets.getBetting_criterion());
 			
 			if(vfn.isValidNumber()) {
 				Integer in = vfn.getNumber();
@@ -96,7 +99,8 @@ public class BetsRoutingRest {
 		}
 		
 		IvalidationsV Iv2 = validationsSaldo::new;
-		validationsSaldo vfn = Iv2.v2("");
+		String sv = ""+String.valueOf(Bets.getBet_value());
+		validationsSaldo vfn = Iv2.v2(sv);
 		
 		boolean rvalid = vfn.ValidValue();		
 		
@@ -124,7 +128,7 @@ public class BetsRoutingRest {
 		
 		if(Rulette.isPresent()) {
 			rulette ResultOptional = Rulette.get();
-			if(ResultOptional.getStatus() == "Active") {
+			if(ResultOptional.getStatus().indexOf("ACTIVE")!=-1) {
 				return true;
 			}
 		}

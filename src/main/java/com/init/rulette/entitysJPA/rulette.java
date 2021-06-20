@@ -2,13 +2,18 @@ package com.init.rulette.entitysJPA;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 @Table(name="RULETTE")
 public class rulette {
-	@Id
+	@Id	
+	//@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CUST_SEQ")
+	//@SequenceGenerator(sequenceName="RULETTE_SEQUENCE",allocationSize=1,name="CUST_SEQ")
 	@Column(name="ID", nullable=false, length=3)
 	private Long id;
 	@Column(name="STATUS",nullable = false, length = 20)
